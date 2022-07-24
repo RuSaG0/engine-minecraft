@@ -11,25 +11,41 @@
 Matrix4x4 Matrix4x4::operator*(const Matrix4x4 &matrix4X4) const {
     Matrix4x4 result = Matrix4x4::Zero();
 
-    // TODO: implement  (lesson 1)
+    for(int i = 0; i < 4; ++i){
+        for(int j = 0; j < 4; ++j){
+            for(int k = 0; k < 4; ++k){
+                result._arr[i][j] += _arr[i][k] * matrix4X4._arr[k][j];
+            }
+        }
+    }
 
     return result;
 }
 
 Vec4D Matrix4x4::operator*(const Vec4D &point4D) const {
-    // TODO: implement (lesson 1)
-    return Vec4D();
+    return Vec4D(
+            _arr[0][0] * point4D.x() + _arr[0][1] * point4D.y() + _arr[0][2] * point4D.z() + _arr[0][3] * point4D.w(),
+            _arr[1][0] * point4D.x() + _arr[1][1] * point4D.y() + _arr[1][2] * point4D.z() + _arr[1][3] * point4D.w(),
+            _arr[2][0] * point4D.x() + _arr[2][1] * point4D.y() + _arr[2][2] * point4D.z() + _arr[2][3] * point4D.w(),
+            _arr[3][0] * point4D.x() + _arr[3][1] * point4D.y() + _arr[3][2] * point4D.z() + _arr[3][3] * point4D.w()
+    );
 }
 
 Vec3D Matrix4x4::operator*(const Vec3D &vec) const {
-    // TODO: implement (lesson 1)
-    return Vec3D();
+    return Vec3D(
+            _arr[0][0] * vec.x() + _arr[0][1] * vec.y() + _arr[0][2] * vec.z(),
+            _arr[1][0] * vec.x() + _arr[1][1] * vec.y() + _arr[1][2] * vec.z(),
+            _arr[2][0] * vec.x() + _arr[2][1] * vec.y() + _arr[2][2] * vec.z()
+    );
 }
 
 Matrix4x4 Matrix4x4::Identity() {
-    Matrix4x4 result;
+    Matrix4x4 result = Matrix4x4::Zero();
 
-    // TODO: implement (lesson 1)
+    result._arr[0][0] = 1.0;
+    result._arr[1][1] = 1.0;
+    result._arr[2][2] = 1.0;
+    result._arr[3][3] = 1.0;
 
     return result;
 }
@@ -37,7 +53,11 @@ Matrix4x4 Matrix4x4::Identity() {
 Matrix4x4 Matrix4x4::Constant(double value) {
     Matrix4x4 result;
 
-    // TODO: implement (lesson 1)
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            result._arr[j][i] = value;
+        }
+    }
 
     return result;
 }
@@ -48,8 +68,10 @@ Matrix4x4 Matrix4x4::Zero() {
 
 Matrix4x4 Matrix4x4::Scale(const Vec3D &factor) {
     Matrix4x4 s{};
-
-    // TODO: implement (lesson 1)
+    s._arr[0][0] = factor.x();
+    s._arr[1][1] = factor.y();
+    s._arr[2][2] = factor.z();
+    s._arr[3][3] = 1;
 
     return s;
 }
@@ -57,7 +79,14 @@ Matrix4x4 Matrix4x4::Scale(const Vec3D &factor) {
 Matrix4x4 Matrix4x4::Translation(const Vec3D &v) {
     Matrix4x4 t{};
 
-    // TODO: implement (lesson 1)
+    t._arr[0][0] = 1.0;
+    t._arr[1][1] = 1.0;
+    t._arr[2][2] = 1.0;
+    t._arr[3][3] = 1.0;
+
+    t._arr[0][3] = v.x();
+    t._arr[1][3] = v.y();
+    t._arr[2][3] = v.z();
 
     return t;
 }
@@ -65,7 +94,16 @@ Matrix4x4 Matrix4x4::Translation(const Vec3D &v) {
 Matrix4x4 Matrix4x4::RotationX(double rx) {
     Matrix4x4 Rx{};
 
-    // TODO: implement (lesson 1)
+    double c = cos(rx), s = sin(rx);
+
+    Rx._arr[0][0] = 1.0;
+
+    Rx._arr[1][1] = c;
+    Rx._arr[1][2] = -s;
+    Rx._arr[2][1] = s;
+    Rx._arr[2][2] = c;
+
+    Rx._arr[3][3] = 1.0;
 
     return Rx;
 }
@@ -73,7 +111,16 @@ Matrix4x4 Matrix4x4::RotationX(double rx) {
 Matrix4x4 Matrix4x4::RotationY(double ry) {
     Matrix4x4 Ry{};
 
-    // TODO: implement (lesson 1)
+    double c = cos(ry), s = sin(ry);
+
+    Ry._arr[1][1] = 1.0;
+
+    Ry._arr[0][0] = c;
+    Ry._arr[0][2] = s;
+    Ry._arr[2][0] = -s;
+    Ry._arr[2][2] = c;
+
+    Ry._arr[3][3] = 1.0;
 
     return Ry;
 }
@@ -81,7 +128,16 @@ Matrix4x4 Matrix4x4::RotationY(double ry) {
 Matrix4x4 Matrix4x4::RotationZ(double rz) {
     Matrix4x4 Rz{};
 
-    // TODO: implement (lesson 1)
+    double c = cos(rz), s = sin(rz);
+
+    Rz._arr[2][2] = 1.0;
+
+    Rz._arr[0][0] = c;
+    Rz._arr[0][1] = -s;
+    Rz._arr[1][0] = s;
+    Rz._arr[1][1] = c;
+
+    Rz._arr[3][3] = 1.0;
 
     return Rz;
 }

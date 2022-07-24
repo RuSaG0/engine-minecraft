@@ -28,65 +28,64 @@ Vec3D::Vec3D(double x, double y, double z) {
 }
 
 Vec3D Vec3D::operator-() const {
-    // TODO: implement (lesson 1)
-    return Vec3D();
+    return Vec3D(-x(), -y(), -z());
 }
 
 bool Vec3D::operator==(const Vec3D &vec) const {
-    // TODO: implement (lesson 1)
-    return true;
+    return (*this - vec).sqrAbs() < Consts::EPS;
 }
 
 bool Vec3D::operator!=(const Vec3D &vec) const {
-    // TODO: implement (lesson 1)
-    return true;
+    return !(*this == vec);
 }
 
 // Operations with Vec3D
 Vec3D Vec3D::operator+(const Vec3D &vec) const {
-    // TODO: implement (lesson 1)
-    return Vec3D();
+    return Vec3D(x() + vec.x(), y() + vec.y(), z() + vec.z());
 }
 
 Vec3D Vec3D::operator-(const Vec3D &vec) const {
-    // TODO: implement (lesson 1)
-    return Vec3D();
+    return *this + -vec;
 }
 
 Vec3D Vec3D::operator*(double number) const {
-    // TODO: implement (lesson 1)
-    return Vec3D();
+    return Vec3D(x() * number, y() * number, z() * number);
 }
 
 Vec3D Vec3D::operator/(double number) const {
-    // TODO: implement (lesson 1)
-    return Vec3D();
+    if (std::abs(number) > Consts::EPS) {
+        return *this * (1.0 / number);
+    } else {
+        throw std::domain_error{"Vec3D::operator/(double number): division by zero"};
+    }
 }
 
 // Other useful methods
 double Vec3D::sqrAbs() const {
-    // TODO: implement (lesson 1)
-    return 1;
+    return x() * x() + y() * y() + z() * z();
 }
 
 double Vec3D::abs() const {
-    // TODO: implement (lesson 1)
-    return 1;
+    return sqrt(sqrAbs());
 }
 
 Vec3D Vec3D::normalized() const {
-    // TODO: implement (lesson 1)
-    return Vec3D();
+    double vecAbs = sqrAbs();
+    if (vecAbs > Consts::EPS) {
+        return *this / sqrt(vecAbs);
+    } else {
+        return Vec3D(1);
+    }
 }
 
 double Vec3D::dot(const Vec3D &vec) const {
-    // TODO: implement (lesson 1)
-    return 0;
+    return vec.x() * x() + vec.y() * y() + vec.z() * z();
 }
 
 Vec3D Vec3D::cross(const Vec3D &vec) const {
-    // TODO: implement (lesson 1)
-    return Vec3D();
+    return Vec3D(y() * vec.z() - vec.y() * z(),
+                 z() * vec.x() - vec.z() * x(),
+                 x() * vec.y() - vec.x() * y());
 }
 
 Vec4D Vec3D::makePoint4D() const {
